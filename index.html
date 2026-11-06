@@ -136,23 +136,6 @@ h2{font-size:clamp(26px,5vw,36px);margin-bottom:10px}
 .tease p{margin:0;color:var(--ink);max-width:54ch}
 .tease .btn{align-self:flex-start}
 
-/* signup */
-.signup{padding:28px 24px}
-form{display:grid;gap:12px;margin:18px 0 6px}
-label.f{display:grid;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
-input[type=text]{font:16px var(--font);color:var(--ink);background:#fff;border:1px solid #B9C6D6;border-radius:6px;padding:0 14px;min-height:48px;width:100%}
-input[type=text]:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(0,104,183,.2)}
-.count{display:flex;align-items:baseline;gap:10px;margin-top:22px}
-.count b{font:700 56px/1 var(--font);color:var(--navy)}
-.count span{color:var(--muted)}
-.list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;max-height:260px;overflow:auto}
-.list li{display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg-alt);border:1px solid var(--line);font-size:15px}
-.list li span:first-child{color:var(--navy);font-weight:500}
-.list li span:last-child{color:var(--muted);text-align:right}
-.msg{font-size:14px;min-height:20px;margin:4px 0 0}
-.msg.ok{color:#0b7a55;font-weight:500}.msg.warn{color:#92600a}
-.note{margin-top:12px;color:var(--muted);font-size:14px;padding:12px 14px;border-radius:6px;background:#FFF8EA;border:1px solid #F3D9A4}
-button[disabled]{opacity:.5;cursor:not-allowed}
 
 footer{background:var(--navy);color:#fff;padding:28px 0 calc(32px + env(safe-area-inset-bottom,0px));font-size:13px;text-align:center}
 
@@ -233,7 +216,6 @@ footer{background:var(--navy);color:#fff;padding:28px 0 calc(32px + env(safe-are
 
 <link rel="icon" href="data:,">
 <meta name="robots" content="noindex">
-<script src="config.js"></script>
 </head>
 <body>
 <header class="bar"><div class="wrap">
@@ -252,7 +234,7 @@ footer{background:var(--navy);color:#fff;padding:28px 0 calc(32px + env(safe-are
     <span class="chip"><b>3</b> boxes</span>
   </div>
   <div class="btns">
-    <a class="btn pri" href="#signup" id="ctaSign">Register for a demo kit</a>
+    <a class="btn pri" href="#contact" id="ctaSign">Request a demo kit</a>
     <a class="btn sec" href="routing-tool.html">Get the Routing Tool</a>
   </div>
 </div><figure class="photo glass"><div class="hs"><img src="assets/911f25eeb0.jpg" alt="Illustration of the full AVAS demo setup on a table: camera, encoder, switch, decoder, monitor and a laptop running the Routing Tool" width="1200" height="675"><span class="hot" style="left:23%;top:27%"><i></i>TX</span><span class="hot" style="left:45.5%;top:24%"><i></i>Switch</span><span class="hot" style="left:67%;top:27%"><i></i>RX</span><span class="hot" style="left:44%;top:78%"><i></i>Laptop</span></div><figcaption>Illustrative setup</figcaption></figure></div></div></section>
@@ -308,25 +290,11 @@ footer{background:var(--navy);color:#fff;padding:28px 0 calc(32px + env(safe-are
   </a>
 </div></section>
 
-<section id="signup"><div class="wrap">
-  <div class="glass signup">
-    <h2>Want a demo kit for your team?</h2>
-    <p class="lede" style="margin-bottom:0">Add your name and RBU team. We'll count the interest.</p>
-    <form id="form" autocomplete="off">
-      <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;min-height:0;height:1px">
-      <label class="f">Name<input type="text" id="name" required maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next"></label>
-      <label class="f">RBU Team<input type="text" id="team" required maxlength="80" autocomplete="organization" autocapitalize="words" enterkeyhint="done"></label>
-      <button class="btn pri" id="go" type="submit">Register my team</button>
-      <p class="msg" id="msg" aria-live="polite"></p>
-    </form>
-    <p class="note" id="note" hidden></p>
-  </div>
-</div></section>
 </main>
 
-<section class="contact"><div class="wrap"><div class="cbox">
-  <h2>Questions?</h2>
-  <p class="cl">Ask the AVAS Product PM about the kit and the Routing Tool, or the iHealthcare BDM about getting a kit for your team.</p>
+<section id="contact" class="contact"><div class="wrap"><div class="cbox">
+  <h2>Interested in a Demo Kit or Have Questions?</h2>
+  <p class="cl">If you are interested in getting an AVAS Demo Kit for your team or would like to learn more, please reach out directly to the AVAS Product PM or the iHealthcare BDM.</p>
   <ul class="people">
     <li><b>Laurence Liu</b><span class="role">AVAS Product PM</span><span class="id">Laurence.Liu</span></li>
     <li><b>Mark Leorna</b><span class="role">iHealthcare BDM</span><span class="id">Mark.Leorna</span></li>
@@ -392,28 +360,6 @@ footer{background:var(--navy);color:#fff;padding:28px 0 calc(32px + env(safe-are
   $('reset').addEventListener('click',function(){state=[0,0,0,0,0,0];inputs.forEach(function(p){p[0].checked=false});save();render()});
   render();
 
-  /* signup */
-  var URL_=(window.AVAS_CONFIG&&window.AVAS_CONFIG.signupUrl)||'';
-  var go=$('go'),msg=$('msg'),note=$('note');
-  function setMsg(t,c){msg.textContent=t;msg.className='msg'+(c?' '+c:'')}
-  if(!URL_){go.disabled=true;note.textContent='Registration is not open yet. Tell the presenter your name and team.';note.hidden=false}
-  $('form').addEventListener('submit',async function(ev){
-    ev.preventDefault();
-    var name=$('name').value.trim(),team=$('team').value.trim();
-    if(!name||!team){setMsg('Add your name and RBU team.','warn');return}
-    if(!URL_)return;
-    go.disabled=true;setMsg('Saving…');
-    try{
-      var r=await fetch(URL_,{method:'POST',body:new URLSearchParams({name:name,team:team,hp:$('hp').value})});
-      var j=await r.json();
-      if(!j||!j.ok)throw new Error('rejected');
-      setMsg('Registered. Thanks, '+name+'!','ok');
-      $('form').reset();
-    }catch(e){
-      setMsg('Registration did not go through. Check your connection and try again, or tell the presenter your name and team.','warn');
-    }
-    go.disabled=false;
-  });
 })();
 </script>
 </body>
