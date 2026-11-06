@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>AVAS Routing Tool</title>
+<meta name="description" content="The free AVAS Routing Tool puts every source and display on one screen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#004280; --blue:#0068B7; --sky:#E8F1FA; --bg:#FFFFFF; --bg-alt:#F5F8FB;
+  --ink:#1A2433; --muted:#5B6B7F; --line:#DCE3EC; --ok:#10B981; --warn:#F59E0B;
+  --sh:0 1px 2px rgba(0,30,60,.06),0 8px 24px rgba(0,30,60,.06);
+  
+  --font:"Roboto",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--font);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:#fff;z-index:60}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+h1,h2,h3{font-family:var(--font);font-weight:700;color:var(--navy);line-height:1.12;letter-spacing:-.01em}
+h2{font-size:clamp(28px,6vw,40px);margin-bottom:12px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.lead{color:var(--muted);max-width:56ch}
+section{padding:60px 0}
+main>section:nth-child(even){background:var(--bg-alt)}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:#fff;border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:10px}
+.brand{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+.brand b{font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--navy)}
+.brand span{font-size:12px;color:var(--muted)}
+.seg{display:flex;gap:6px}
+.seg a{text-decoration:none;font:500 13px var(--font);padding:7px 13px;border-radius:6px;color:var(--navy);border:1px solid var(--navy);background:#fff;transition:background .2s}
+.seg a:hover{background:var(--sky)}
+.seg a[aria-current=page]{background:var(--navy);color:#fff}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;justify-content:center;text-decoration:none;font:500 16px var(--font);padding:13px 22px;border-radius:6px;min-height:48px;transition:background .2s,transform .15s;border:1px solid var(--navy);cursor:pointer}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--navy);color:#fff}
+.btn.pri:hover{background:#00346a}
+.btn.sec{background:#fff;color:var(--navy)}
+.btn.sec:hover{background:var(--sky)}
+.btn svg{width:20px;height:20px;flex:none}
+
+/* hero */
+.hero{padding:36px 0 56px;overflow-x:clip;background:radial-gradient(700px 420px at 85% 20%,var(--sky),transparent 70%),#fff}
+.hero .wrap{display:grid;gap:30px;align-items:center}
+.hero h1{font-size:clamp(52px,15vw,96px);letter-spacing:-.03em;line-height:.95}
+.hero h1 span{display:block}
+.hero p.sub{font-size:18px;color:var(--muted);margin:20px 0 26px;max-width:34ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.ctas .btn{flex:1 1 220px}
+
+/* steps */
+.steps{display:grid;gap:14px;margin-top:28px}
+.step{background:#fff;border:1px solid var(--line);border-radius:8px;padding:22px 20px;box-shadow:var(--sh)}
+.step .n{font:700 36px/1 var(--font);color:var(--blue);margin-bottom:12px;letter-spacing:-.02em}
+.step h3{font-size:20px;margin-bottom:6px}
+.step p{color:var(--muted);font-size:15px}
+
+/* playground */
+.pg{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:var(--sh)}
+.modes{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none;margin:0 -2px}
+.modes::-webkit-scrollbar{display:none}
+.modes button{flex:none;font:500 14px var(--font);color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-height:44px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.modes button:hover{background:var(--sky)}
+.modes button[aria-pressed=true]{color:#fff;background:var(--navy);border-color:var(--navy)}
+.modes svg{width:16px;height:16px}
+.screen:not([data-l=off]) .off{opacity:0}
+.screen[data-l=single] .t1{left:0;top:0;width:100%;height:100%;opacity:1;transform:none}
+.screen[data-l=matrix] .tile{opacity:1;transform:none}
+.screen[data-l=pip] .t1{width:100%;height:100%;opacity:1;transform:none}
+.screen[data-l=pip] .t2{left:66%;top:62%;width:31%;height:33%;opacity:1;transform:none;z-index:2;border:2px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.screen[data-l=side] .t1{width:50%;height:100%;opacity:1;transform:none}
+.screen[data-l=side] .t2{left:50%;top:0;width:50%;height:100%;opacity:1;transform:none}
+.screen[data-l=quad] .t1{width:66%;height:100%;opacity:1;transform:none}
+.screen[data-l=quad] .t2{left:66%;top:0;width:34%;height:34%;opacity:1;transform:none}
+.screen[data-l=quad] .t3{left:66%;top:33%;width:34%;height:34%;opacity:1;transform:none}
+.screen[data-l=quad] .t4{left:66%;top:66%;width:34%;height:34%;opacity:1;transform:none}
+.cap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--muted)}
+.cap b{color:var(--navy);font-weight:700}
+.tw{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:20px 16px;box-shadow:var(--sh)}
+.tw h3{font-size:22px;margin-bottom:4px}
+.tw>p{color:var(--muted);font-size:15px;margin-bottom:18px}
+.toy{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:20px 18%;align-items:stretch}
+.toy svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.toy .col{display:grid;gap:14px;position:relative;z-index:1}
+.chip{font:500 14px var(--font);color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 10px;min-height:64px;cursor:pointer;display:flex;align-items:center;gap:8px;justify-content:center;transition:all .2s;box-shadow:var(--sh)}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.chip[aria-pressed=true]{border-color:var(--c);background:var(--sky);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 25%,transparent)}
+.dsp{position:relative;min-height:84px;border-radius:6px;border:1px solid var(--line);background:var(--bg-alt);cursor:pointer;color:var(--muted);font:400 13px var(--font);display:grid;place-items:center;overflow:hidden;transition:border-color .2s;text-align:center;padding:6px}
+.dsp .nm{position:absolute;top:6px;left:8px;right:8px;font-size:10px;opacity:.85;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsp.on{color:#fff;background:var(--g);border-color:var(--c);font:500 13px var(--font);padding-top:16px}
+.dsp.on .nm{opacity:.85}
+.dsp.flash{animation:flash .6s}
+@keyframes flash{0%{box-shadow:0 0 0 0 var(--c)}60%{box-shadow:0 0 0 12px transparent}}
+.dsp.armed{border-color:var(--blue);border-style:dashed}
+.hint{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;font-size:14px;color:var(--muted)}
+.hint button{background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:6px;padding:6px 12px;font:500 13px var(--font);cursor:pointer;min-height:36px}
+.path{fill:none;stroke-width:3;stroke-linecap:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* features */
+
+/* download */
+.dl{background:var(--sky);border:1px solid var(--line);border-radius:8px;padding:32px 20px;text-align:center}
+.dl .btn{font-size:18px;padding:16px 28px;width:100%;max-width:380px}
+.note{color:var(--muted);font-size:14px;margin-top:12px}
+details{margin-top:24px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px}
+summary{cursor:pointer;padding:16px 18px;font:700 16px var(--font);color:var(--navy);list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:52px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:24px;color:var(--blue);transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details ol{list-style:none;counter-reset:i;padding:0 18px 14px;color:var(--muted);font-size:15px}
+details li{counter-increment:i;display:flex;gap:14px;padding:10px 0;border-top:1px solid var(--line)}
+details li::before{content:counter(i,decimal-leading-zero);font-weight:700;color:var(--blue);flex:none}
+details li b{color:var(--navy);font-weight:700}
+
+/* close */
+.close{text-align:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:40px 20px;box-shadow:var(--sh)}
+.close h2{margin-bottom:8px}
+.close .lead{margin:0 auto 22px}
+.close .ctas{justify-content:center;flex-direction:column;align-items:center}
+.close .ctas .btn{flex:none;width:100%;max-width:320px}
+.close a.link{color:var(--blue);font-weight:500;text-underline-offset:4px;padding:10px}
+footer{background:var(--navy);color:#fff;padding:26px 0 calc(30px + env(safe-area-inset-bottom,0px));text-align:center;font-size:13px}
+
+
+.wk{display:grid;gap:14px;margin-top:28px}
+.wk .ph{height:150px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;padding:10px}
+.wk .ph img{width:auto;max-width:100%;max-height:100%;height:auto;border:0;margin:0}
+@media(min-width:760px){.wk{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:760px){
+  section{padding:84px 0}
+  .hero .wrap{grid-template-columns:1fr 1.2fr;gap:30px}
+  .ctas .btn{flex:0 1 auto}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .feats{grid-template-columns:1fr 1fr}
+  .pg{padding:24px}
+  .modes{flex-wrap:wrap;overflow:visible}
+  .toy{gap:20px 36%}
+  .close .ctas{flex-direction:row;justify-content:center}
+}
+@media (max-width:420px){.brand span{display:none}.seg a{padding:7px 10px}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .path{stroke-dashoffset:0}
+}
+
+.hero .ver{display:inline-block;margin-top:18px;font-size:14px;color:var(--muted)}
+.hero .ver b{color:var(--navy);font-weight:700}
+.stagewrap{padding:6px 0}
+.icap{font-size:12px;color:var(--muted);margin-top:8px;text-align:right}
+.win{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(0,30,60,.08),0 18px 44px rgba(0,30,60,.14)}
+.win .tb{display:flex;align-items:center;justify-content:space-between;height:32px;padding:0 0 0 12px;background:#F1F5F9;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.win .tb span{display:flex;align-items:center;gap:8px}
+.win .tb span i{width:14px;height:14px;border-radius:3px;background:var(--navy)}
+.win .tb u{display:flex;text-decoration:none;height:100%}
+.win .tb u b{width:40px;display:grid;place-items:center;font-weight:400;font-size:13px;color:var(--muted)}
+.win img{display:block;width:100%;height:auto}
+.screen{position:relative;aspect-ratio:16/9;background:#0b1320;border-radius:8px;border:1px solid var(--line);overflow:hidden}
+.off{position:absolute;inset:0;display:grid;place-items:center;color:#6b7c93;font:500 14px var(--font);text-align:center;transition:opacity .4s}
+.off svg{width:30px;height:30px;display:block;margin:0 auto 6px}
+.screen:not([data-l=off]) .off{opacity:0}
+.tile{position:absolute;left:0;top:0;width:50%;height:50%;background:#02050a;border:1px solid #2f5fb8;overflow:hidden;opacity:0;transform:scale(.94);transition:left .6s cubic-bezier(.2,.8,.2,1),top .6s cubic-bezier(.2,.8,.2,1),width .6s cubic-bezier(.2,.8,.2,1),height .6s cubic-bezier(.2,.8,.2,1),opacity .45s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.tile em{position:absolute;left:5px;top:5px;font:700 clamp(10px,2.4vw,15px)/1 var(--font);font-style:normal;color:#fff;background:#2a3140;border-radius:3px;padding:3px 6px}
+.tile span{position:absolute;right:6px;top:6px;left:auto;font:500 clamp(8px,1.9vw,12px) var(--font);color:#e6edf7;text-align:right;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile small{position:absolute;right:5px;bottom:5px;font:500 clamp(8px,1.8vw,11px) var(--font);color:#fff;background:rgba(255,255,255,.16);border-radius:3px;padding:2px 5px}
+.tile.t1,.tile.t4{background:linear-gradient(135deg,#050b14,#0c2036)}
+.tile.t2,.tile.t3{background:linear-gradient(135deg,#04101a,#0a2a3a)}
+.tile.t2{left:50%}
+.tile.t3{top:50%}
+.tile.t4{left:50%;top:50%}
+.legend{list-style:none;display:grid;gap:8px;margin:0;padding:0;font-size:14px;color:var(--muted)}
+.legend li{display:flex;gap:10px;align-items:flex-start}
+.legend b,.dot{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font:700 12px/1 var(--font);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,30,60,.35)}
+.legend b{width:22px;height:22px}
+.how{display:grid;gap:22px;margin-top:30px}
+.hs{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:var(--sh);padding:18px;display:grid;gap:16px}
+.hs .num{font:700 14px var(--font);color:var(--blue);letter-spacing:.02em}
+.hs h3{font-size:22px;margin:2px 0 6px}
+.hs p{color:var(--muted);font-size:15px;max-width:60ch}
+.fr{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff;cursor:zoom-in;display:block;width:100%;padding:0}
+.fr img{display:block;width:100%;height:auto}
+.fr .dot{position:absolute;transform:translate(-50%,-50%)}
+.zoomhint{font-size:12px;color:var(--muted);margin-top:6px}
+.more{display:grid;gap:14px;margin-top:28px}
+.mc{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:var(--sh);padding:20px;display:flex;flex-direction:column;gap:10px}
+.mc .ic{width:40px;height:40px;border-radius:8px;background:var(--sky);color:var(--blue);display:grid;place-items:center}
+.mc .ic svg{width:22px;height:22px}
+.mc h3{font-size:19px}
+.mc p{font-size:15px;color:var(--muted)}
+.mc img{width:100%;height:auto;border:1px solid var(--line);border-radius:6px;margin-top:4px;display:block}
+dialog{margin:auto;inset:0;border:0;padding:0;background:#fff;border-radius:8px;width:min(96vw,1200px);max-height:92vh;overflow:hidden}
+dialog::backdrop{background:rgba(0,30,60,.6)}
+dialog .zb{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+dialog .zb button{font:500 13px var(--font);color:var(--navy);background:#fff;border:1px solid var(--navy);border-radius:6px;padding:6px 14px;cursor:pointer;min-height:36px}
+dialog .zs{overflow:auto;max-height:calc(92vh - 52px)}
+dialog .zs img{display:block;width:max(100%,900px);height:auto}
+.modes button.offb[aria-pressed=false]{color:#b42318}
+@media (min-width:760px){
+  .hs{grid-template-columns:1.6fr 1fr;align-items:center;gap:28px;padding:22px}
+  .hs:nth-child(even){grid-template-columns:1fr 1.6fr}
+  .hs:nth-child(even) .fr-wrap{order:2}
+  .more{grid-template-columns:1fr 1fr}
+}
+:root{--im-endo:url(assets/9d9af6c101.jpg);--im-cath:url(assets/518d7bdc32.jpg);--im-us:url(assets/cc4c73160c.jpg);--im-ct:url(assets/66af9ed9b8.jpg)}
+
+.tile.t1,.tile.t2,.tile.t3,.tile.t4{background-color:#000;background-size:cover;background-position:center;background-repeat:no-repeat}
+.tile.t1{background-image:var(--im-endo)}
+.tile.t2{background-image:var(--im-cath)}
+.tile.t3{background-image:var(--im-us)}
+.tile.t4{background-image:var(--im-ct)}
+.tile span{text-shadow:0 1px 3px rgba(0,0,0,.9)}
+.dsp.on{text-shadow:0 1px 3px rgba(0,0,0,.85)}
+
+/* --- mobile + laptop pass --- */
+.seg a{display:inline-flex;align-items:center;min-height:44px}
+.hero{padding:24px 0 48px}
+.hero h1{font-size:clamp(44px,13vw,96px);line-height:1}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow:visible;padding:2px 0 12px;margin:0}
+.modes button{flex-direction:column;justify-content:center;gap:4px;font-size:13px;padding:8px 4px;min-height:56px;text-align:center}
+.modes svg{width:20px;height:20px}
+.dsp{min-height:96px}.dsp .nm{font-size:12px}.dsp.on{padding-top:22px}
+.hint button{min-height:44px;padding:8px 16px}
+.close a.link{display:inline-flex;align-items:center;min-height:44px}
+dialog .zb button{min-height:44px}
+.handoff{display:none;margin:0 0 14px}
+.touch .handoff{display:block}
+.touch .dlbtn{display:none}
+.handoff p{font-size:15px;color:var(--ink);margin-bottom:12px;max-width:40ch}
+.handoff .ctas{margin:0}
+.handoff p.copied{min-height:22px;font-size:14px;color:#0b7a55;margin:8px 0 0}
+.dl .handoff{max-width:380px;margin:0 auto 14px;text-align:left}
+.handoff p.copied:empty{display:none}
+.handoff p.dlurl{font-size:13px;color:var(--muted);word-break:break-all;margin:8px 0 0;user-select:all}
+@media(min-width:760px){
+  .hero{padding:48px 0 64px}
+  .hero h1{font-size:clamp(60px,7vw,92px)}
+  .modes{display:flex;flex-wrap:wrap}
+  .modes button{flex-direction:row;font-size:14px;padding:10px 14px;min-height:44px}
+  .modes svg{width:16px;height:16px}
+}
+
+/* layout preview fits the laptop window */
+@media(min-width:760px){
+  #playground{padding-top:52px;padding-bottom:64px}
+  .screen{width:min(100%,calc((100vh - 345px)*1.7778));min-width:min(100%,480px);margin-right:auto}
+}
+@media(min-width:960px){
+  .pg{display:grid;grid-template-columns:176px minmax(0,1fr);column-gap:24px;align-items:start}
+  .pg .modes{grid-column:1;grid-row:1 / span 2;display:flex;flex-direction:column;flex-wrap:nowrap;gap:8px;padding:0}
+  .pg .modes button{flex-direction:row;justify-content:flex-start;width:100%;font-size:15px;padding:10px 14px}
+  .pg .screen{grid-column:2;grid-row:1}
+  .pg .cap{grid-column:2;grid-row:2}
+}
+
+/* contact */
+.contact{padding:48px 0}
+.cbox{background:#fff;border:1px solid var(--line);border-radius:8px;padding:28px 24px}
+.cbox h2{margin:0 0 8px}
+.cbox p.cl{margin:0 0 20px;color:var(--muted);max-width:56ch}
+.people{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:1fr}
+.people li{display:grid;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--bg-alt);min-width:0}
+.people b{font-size:18px;color:var(--navy)}
+.people .role{color:var(--ink);font-size:15px}
+.people .id{color:var(--muted);font-size:14px;user-select:all;overflow-wrap:anywhere}
+@media(min-width:640px){.people{grid-template-columns:1fr 1fr}}
+</style>
+<link rel="icon" href="data:,">
+<meta name="robots" content="noindex">
+<script src="config.js"></script>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <span class="brand"><b>ADVANTECH</b><span>iHealthcare</span></span>
+  <nav class="seg" aria-label="Pages"><a href="index.html">Demo Kit</a><a href="routing-tool.html" aria-current="page">Routing Tool</a></nav>
+</div></header>
+
+<main>
+<section class="hero"><div class="wrap">
+  <div>
+    <h1><span>Select.</span><span>Route.</span><span>Done.</span></h1>
+    <p class="sub">The free AVAS Routing Tool puts every source and display on one screen.</p>
+    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2Fadvantech%2Favas-routing-tool%2Freleases%2Flatest">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/advantech/avas-routing-tool/releases/latest</p></div>
+    <div class="ctas">
+      <a class="btn pri dlbtn" href="https://github.com/advantech/avas-routing-tool/releases/latest" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
+      <a class="btn sec" href="index.html#signup">Register for a demo kit</a>
+    </div>
+    <span class="ver"><b>Free</b> &middot; v1.0.0 &middot; Windows</span>
+  </div>
+  <div class="stagewrap">
+    <div class="win"><div class="tb"><span><i></i>AVAS Routing Tool</span><u><b>&#8212;</b><b>&#9633;</b><b>&#10005;</b></u></div>
+    <img src="assets/cec49715db.jpg" alt="AVAS Routing Tool Visual Routing screen showing video sources and target displays" width="1400" height="788"></div>
+  <p class="icap">Preview images are illustrative.</p>
+  </div>
+</div></section>
+
+<section id="quick"><div class="wrap">
+  <h2>Up and running in 3 steps</h2>
+  <p class="lead">No config files and no IP addresses to type. About ten minutes from box to first routed picture.</p>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><h3>Download &amp; install</h3><p>Download the installer from GitHub and run it.</p></div>
+    <div class="step"><div class="n">02</div><h3>Connect and open</h3><p>Plug your laptop into the kit's switch with the CAT-6 cable, then open the app. Devices appear automatically.</p></div>
+    <div class="step"><div class="n">03</div><h3>Route</h3><p>Select a source, select a display, then pick a layout.</p></div>
+  </div>
+</div></section>
+
+<section id="works"><div class="wrap">
+  <h2>Made for the AVAS-223 demo kit</h2>
+  <p class="lead">The app finds these three pieces on its own. Nothing to type in.</p>
+  <div class="wk"><div class="mc"><div class="ph"><img src="assets/0d92288a92.jpg" alt="AVAS-223 TX encoder, front and rear" width="640" height="434" loading="lazy"></div><h3>AVAS-223 TX</h3><p>Encoder. Sends the picture from your video source over the network. Appears under Video Sources (TX).</p></div><div class="mc"><div class="ph"><img src="assets/d80822d3c7.jpg" alt="AVAS-223 RX decoder, front and rear" width="640" height="421" loading="lazy"></div><h3>AVAS-223 RX</h3><p>Decoder. Receives the picture and shows it on your screen. Appears under Target Displays (RX).</p></div><div class="mc"><div class="ph"><img src="assets/788b1600e5.jpg" alt="MikroTik CRS309-1G-8S+IN 10G SFP+ switch" width="640" height="185" loading="lazy"></div><h3>MikroTik switch</h3><p>A pre-configured, lightweight, SDVoE-certified network switch. Plug in and the demo is ready.</p></div></div>
+</div></section>
+
+<section id="playground"><div class="wrap">
+  <h2>Try the layouts</h2>
+  <p class="lead">The same six layouts the app offers. Tiles show illustrative sample frames (endoscopy, cath lab, ultrasound, CT), not live video.</p>
+  <div class="pg">
+    <div class="modes" role="group" aria-label="Layout modes" id="modes"></div>
+    <div class="screen" id="screen" data-l="matrix">
+      <div class="off"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v8M6.3 6.8a8 8 0 1011.4 0"/></svg>Display off</div></div>
+      <div class="tile t1"><em>1</em><span>TX1_c07bb_SFPA</span><small>960&times;540</small></div>
+      <div class="tile t2"><em>2</em><span>TX2_DUAL LINK_SFPA</span><small>960&times;540</small></div>
+      <div class="tile t3"><em>3</em><span>VEGA_1100</span><small>960&times;540</small></div>
+      <div class="tile t4"><em>4</em><span>TX3_c07bd_SFPA</span><small>960&times;540</small></div>
+    </div>
+    <div class="cap"><span>Up to 4 sources on one display. Previews are low-rate monitoring pictures, not the surgical feed.</span><span>Layout: <b id="lname">Matrix 2&times;2</b></span></div>
+  </div>
+
+  <div class="tw">
+    <h3>Try a route</h3>
+    <p>Select a source, then a display. The real app works the same way.</p>
+    <div class="toy" id="toy">
+      <svg class="lines" id="lines" aria-hidden="true"></svg>
+      <div class="col">
+        <button class="chip" style="--c:#0E7C8F" data-s="0" aria-pressed="false"><i></i>TX1_c07bb_SFPA</button>
+        <button class="chip" style="--c:#0068B7" data-s="1" aria-pressed="false"><i></i>TX2_DUAL LINK_SFPA</button>
+      </div>
+      <div class="col">
+        <button class="dsp" data-d="0"><span class="nm">RX1_c059e_SFPA</span><span class="lbl">Unrouted</span></button>
+        <button class="dsp" data-d="1"><span class="nm">PAX355S_SFP A</span><span class="lbl">Unrouted</span></button>
+      </div>
+    </div>
+    <div class="hint"><span id="hint" role="status">Select a source to start.</span><button id="reset" type="button">Reset</button></div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2>Four screens, start to finish</h2>
+  <p class="lead">Official screens from AVAS Routing Tool v1.0.0, in light mode.</p>
+  <div class="how"><article class="hs"><div class="fr-wrap"><button class="fr" type="button" data-zoom="s1" aria-label="Enlarge: AVAS Routing Tool Visual Routing overview with two sources and three displays"><img src="assets/cec49715db.jpg" alt="AVAS Routing Tool Visual Routing overview with two sources and three displays" width="1400" height="788" loading="lazy"><span class="dot" style="left:43.8%;top:11.4%">1</span><span class="dot" style="left:6.3%;top:50.6%">2</span><span class="dot" style="left:78.8%;top:2.6%">3</span></button><p class="zoomhint">Select a screenshot to enlarge.</p></div>
+<div><div class="num">01</div><h3>See every source and display</h3><p>Video Sources (TX) sit on top and Target Displays (RX) below. Each card shows its link mode, status and current layout.</p><ul class="legend" style="margin-top:14px"><li><b>1</b><span>Video Sources (TX) with Dual Link and Online badges</span></li><li><b>2</b><span>Target Displays (RX), each with Layout and Copy layout</span></li><li><b>3</b><span>Connection status, Dark mode, Refresh and Settings</span></li></ul></div></article><article class="hs"><div class="fr-wrap"><button class="fr" type="button" data-zoom="s2" aria-label="Enlarge: Source card selected with a Placing banner above the displays"><img src="assets/c34ba4bf79.jpg" alt="Source card selected with a Placing banner above the displays" width="1400" height="788" loading="lazy"><span class="dot" style="left:48.8%;top:13.9%">1</span><span class="dot" style="left:43.8%;top:43.8%">2</span><span class="dot" style="left:24.4%;top:76.7%">3</span></button><p class="zoomhint">Select a screenshot to enlarge.</p></div>
+<div><div class="num">02</div><h3>Select a source, then a display</h3><p>Select a source and the app shows "Placing". Then select a display, or drag the source onto it.</p><ul class="legend" style="margin-top:14px"><li><b>1</b><span>The selected source card</span></li><li><b>2</b><span>Placing banner with a Stop button</span></li><li><b>3</b><span>Select the display, or a block, to route</span></li></ul></div></article><article class="hs"><div class="fr-wrap"><button class="fr" type="button" data-zoom="s4" aria-label="Enlarge: Layout popover listing Single View, Matrix 2x2, PIP, Side-by-Side, 1+3 Quad and Off"><img src="assets/05144d5eb2.jpg" alt="Layout popover listing Single View, Matrix 2x2, PIP, Side-by-Side, 1+3 Quad and Off" width="1400" height="788" loading="lazy"><span class="dot" style="left:3.7%;top:50.6%">1</span><span class="dot" style="left:9.4%;top:60%">2</span><span class="dot" style="left:14.4%;top:67.8%">3</span></button><p class="zoomhint">Select a screenshot to enlarge.</p></div>
+<div><div class="num">03</div><h3>Pick a layout</h3><p>Open Layout on any display. Single View and Off apply right away. MultiView layouts open the Composer.</p><ul class="legend" style="margin-top:14px"><li><b>1</b><span>Layout button on the display card</span></li><li><b>2</b><span>Note on what applies now and what waits for Take</span></li><li><b>3</b><span>Six layouts, current one marked On screen</span></li></ul></div></article><article class="hs"><div class="fr-wrap"><button class="fr" type="button" data-zoom="s8" aria-label="Enlarge: MultiView Composer with a staged Matrix 2x2 layout and a Take 1 change to screen button"><img src="assets/f93e94a557.jpg" alt="MultiView Composer with a staged Matrix 2x2 layout and a Take 1 change to screen button" width="1400" height="788" loading="lazy"><span class="dot" style="left:1.4%;top:28%">1</span><span class="dot" style="left:28.4%;top:28.6%">2</span><span class="dot" style="left:93.5%;top:86%">3</span></button><p class="zoomhint">Select a screenshot to enlarge.</p></div>
+<div><div class="num">04</div><h3>Compose MultiView, then Take</h3><p>Choose a layout, place sources into blocks, check the staged result, then Take. Nothing changes on the screen until you do.</p><ul class="legend" style="margin-top:14px"><li><b>1</b><span>Layout, place sources, check</span></li><li><b>2</b><span>Staged canvas, marked not on screen yet</span></li><li><b>3</b><span>Take sends the staged changes to the display</span></li></ul></div></article></div>
+</div></section>
+
+<section id="more"><div class="wrap">
+  <h2>Built for live rooms</h2>
+  <div class="more">
+    <div class="mc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>BAVM Console built in</h3><p>The BlueRiver AV Manager web console opens in its own tab, on the same control server. Both tabs always agree.</p></div>
+    <div class="mc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Safe staging</h3><p>MultiView changes stay staged until you press Take. Discard or Clear all if you change your mind.</p></div>
+    <div class="mc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></svg></div><h3>Copy layout, with Undo</h3><p>Copy one display's picture onto another in a tap. An Undo toast appears right after.</p><img src="assets/7267c99200.jpg" alt="Copy layout completed with an Undo notification" width="1200" height="675" loading="lazy"></div>
+    <div class="mc"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1111 3a7 7 0 0010 10z"/></svg></div><h3>Dark and light mode</h3><p>Switch between light and dark from the header, whichever suits the room. A connection status indicator stays in view.</p></div>
+  </div>
+</div></section>
+
+<section id="download"><div class="wrap">
+  <div class="dl">
+    <h2>Get the Routing Tool</h2>
+    <p class="lead" style="margin:0 auto 22px">Free to download. Works with the AVAS Demo Kit out of the box.</p>
+    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2Fadvantech%2Favas-routing-tool%2Freleases%2Flatest">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/advantech/avas-routing-tool/releases/latest</p></div>
+    <a class="btn pri dlbtn" href="https://github.com/advantech/avas-routing-tool/releases/latest" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
+    <p class="note">Windows desktop app &middot; v1.0.0</p>
+    <details>
+      <summary>Install guide</summary>
+      <ol>
+        <li><b>Open the GitHub release page</b> using the download button.</li>
+        <li><b>Under Assets,</b> download the latest installer.</li>
+        <li><b>Run it</b> and follow the prompts.</li>
+        <li><b>Open AVAS Routing Tool</b> from the Start menu.</li>
+        <li><b>Connect to the kit switch.</b> Devices appear under Video Sources (TX) and Target Displays (RX).</li>
+      </ol>
+    </details>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="close">
+    <h2>Want a demo kit for your team?</h2>
+    <p class="lead">Add your name and RBU team to register interest in an AVAS Demo Kit.</p>
+    <div class="ctas">
+      <a class="btn pri" href="index.html#signup">Register for a demo kit</a>
+      <a class="link" href="index.html">See what's in the box</a>
+    </div>
+  </div>
+</div></section>
+
+</main>
+<section class="contact"><div class="wrap"><div class="cbox">
+  <h2>Questions?</h2>
+  <p class="cl">Ask the AVAS Product PM about the kit and the Routing Tool, or the iHealthcare BDM about getting a kit for your team.</p>
+  <ul class="people">
+    <li><b>Laurence Liu</b><span class="role">AVAS Product PM</span><span class="id">Laurence.Liu</span></li>
+    <li><b>Mark Leorna</b><span class="role">iHealthcare BDM</span><span class="id">Mark.Leorna</span></li>
+  </ul>
+</div></div></section>
+<footer><div class="wrap">Advantech iHealthcare &middot; Internal sales event</div></footer>
+
+<dialog id="zd" aria-label="Enlarged screen"><div class="zb"><span>Scroll to pan</span><button type="button" id="zc">Close</button></div><div class="zs"><img id="zi" alt=""></div></dialog>
+<script>
+(function(){
+  var touch=false;try{touch=(matchMedia('(pointer:coarse)').matches&&matchMedia('(hover:none)').matches)||/Android|iPhone|iPod|iPad/i.test(navigator.userAgent)}catch(e){}
+  if(touch)document.documentElement.classList.add('touch');
+  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+    var out=b.closest('[data-handoff]').querySelector('[data-copied]');
+    function ok(){out.textContent='Link copied. Paste it into a message to your laptop.'}
+    function bad(){out.textContent='Could not copy. Select the link below and copy it.';try{var u=b.closest('[data-handoff]').querySelector('[data-url]'),r=document.createRange();r.selectNodeContents(u);var sl=getSelection();sl.removeAllRanges();sl.addRange(r)}catch(e){}}
+    try{navigator.clipboard.writeText('https://github.com/advantech/avas-routing-tool/releases/latest').then(ok,bad)}catch(e){bad()}
+  })});
+  var modes=[
+    ['single','Single View','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="2"/></svg>'],
+    ['matrix','Matrix 2\u00d72','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>'],
+    ['pip','PIP','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><rect x="12" y="12" width="7" height="5" fill="currentColor"/></svg>'],
+    ['side','Side-by-Side','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="8" height="14"/><rect x="13" y="5" width="8" height="14"/></svg>'],
+    ['quad','1+3 Quad','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="11" height="14"/><rect x="16" y="5" width="5" height="4"/><rect x="16" y="10" width="5" height="4"/><rect x="16" y="15" width="5" height="4"/></svg>'],
+    ['off','Off','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v8M6.3 6.8a8 8 0 1011.4 0"/></svg>']
+  ];
+  var box=document.getElementById('modes'),scr=document.getElementById('screen'),ln=document.getElementById('lname');
+  function setMode(k){
+    scr.setAttribute('data-l',k);var tags=scr.querySelectorAll('small');for(var q=0;q<tags.length;q++)tags[q].textContent=k==='single'?'1920\u00d71080':'960\u00d7540';
+    modes.forEach(function(m,i){
+      box.children[i].setAttribute('aria-pressed',String(m[0]===k));
+      if(m[0]===k)ln.textContent=m[1];
+    });
+  }
+  modes.forEach(function(m){
+    var b=document.createElement('button');
+    b.type='button';if(m[0]==='off')b.className='offb';b.innerHTML=m[2]+m[1];
+    b.addEventListener('click',function(){setMode(m[0])});
+    box.appendChild(b);
+  });
+  setMode('matrix');
+
+  // tap to route
+  var toy=document.getElementById('toy'),svg=document.getElementById('lines'),hint=document.getElementById('hint');
+  var chips=toy.querySelectorAll('.chip'),dsps=toy.querySelectorAll('.dsp');
+  var S=[{n:'TX1_c07bb_SFPA',c:'#0E7C8F',g:'linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),var(--im-endo) center/cover'},{n:'TX2_DUAL LINK_SFPA',c:'#0068B7',g:'linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.28)),var(--im-cath) center/cover'}];
+  var sel=-1,routes={};
+  function pt(el,side){
+    var r=el.getBoundingClientRect(),t=toy.getBoundingClientRect();
+    return [(side==='r'?r.right:r.left)-t.left,r.top+r.height/2-t.top];
+  }
+  function draw(animate){
+    svg.innerHTML='';
+    Object.keys(routes).forEach(function(d){
+      var s=routes[d],a=pt(chips[s],'r'),b=pt(dsps[d],'l'),mx=(a[0]+b[0])/2;
+      var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d','M'+a[0]+' '+a[1]+' C'+mx+' '+a[1]+' '+mx+' '+b[1]+' '+b[0]+' '+b[1]);
+      p.setAttribute('class','path');
+      p.style.stroke=S[s].c;p.style.color=S[s].c;
+      var len=Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])*1.3)+20;
+      p.style.setProperty('--len',len);
+      if(!animate){p.style.animation='none';p.style.strokeDashoffset=0}
+      svg.appendChild(p);
+    });
+  }
+  function ui(){
+    chips.forEach(function(c,i){c.setAttribute('aria-pressed',String(i===sel))});
+    dsps.forEach(function(d){d.classList.toggle('armed',sel>-1)});
+  }
+  chips.forEach(function(c,i){c.addEventListener('click',function(){
+    sel=(sel===i)?-1:i;ui();
+    hint.textContent=sel>-1?'Now select a display for '+S[i].n+'.':'Select a source to start.';
+  })});
+  dsps.forEach(function(d,i){d.addEventListener('click',function(){
+    if(sel<0){hint.textContent='Select a source first.';return}
+    routes[i]=sel;
+    d.classList.add('on');d.style.setProperty('--c',S[sel].c);d.style.setProperty('--g',S[sel].g);
+    d.querySelector('.lbl').textContent=S[sel].n;
+    d.classList.remove('flash');void d.offsetWidth;d.classList.add('flash');
+    hint.textContent=S[sel].n+' is now on '+(i?'PAX355S_SFP A':'RX1_c059e_SFPA')+'.';
+    sel=-1;ui();draw(true);
+  })});
+  document.getElementById('reset').addEventListener('click',function(){
+    routes={};sel=-1;ui();draw(false);
+    dsps.forEach(function(d){d.classList.remove('on');d.querySelector('.lbl').textContent='Unrouted'});
+    hint.textContent='Select a source to start.';
+  });
+  window.addEventListener('resize',function(){draw(false)});
+
+  var zd=document.getElementById('zd'),zi=document.getElementById('zi');
+  document.querySelectorAll('[data-zoom]').forEach(function(b){b.addEventListener('click',function(){
+    var im=b.querySelector('img');zi.src=im.src;zi.alt=im.alt;
+    if(zd.showModal)zd.showModal();else zd.setAttribute('open','');
+  })});
+  document.getElementById('zc').addEventListener('click',function(){zd.close?zd.close():zd.removeAttribute('open')});
+  zd.addEventListener('click',function(e){if(e.target===zd&&zd.close)zd.close()});
+})();
+</script>
+</body>
+</html>
