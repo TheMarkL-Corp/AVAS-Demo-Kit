@@ -3,18 +3,19 @@
 Two static pages for the AVAS Sales Demo Kit event.
 
 - `index.html`: AVAS Demo Kit page, with setup steps, hardware specs, and PM/BDM contacts.
-- `routing-tool.html`: AVAS Routing Tool page.
+- `routing-tool.html`: AVAS Routing Tool page with releases download.
 - `assets/`: images.
 
 ## 1. Demo Kit Inquiries
 
-The previous sign-up form has been replaced with direct contact details. Interested teams can reach out directly to:
+Interested teams can reach out directly to:
 - **Laurence Liu** (AVAS Product PM) &mdash; `Laurence.Liu`
 - **Mark Leorna** (iHealthcare BDM) &mdash; `Mark.Leorna`
 
-## 2. Check the download link
+## 2. Routing Tool Releases
 
-The Routing Tool page links to `https://github.com/advantech/avas-routing-tool/releases/latest`. Search `routing-tool.html` for that text and replace it with the real download address if different.
+The Routing Tool page download buttons point to:
+`https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases`
 
 ## 3. Publish on GitHub Pages
 

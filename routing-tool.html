@@ -34,7 +34,7 @@ main>section:nth-child(even){background:var(--bg-alt)}
 
 /* top bar */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:#fff;border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:10px}
+.bar .wrap{display:flex;align-items:center;justify-content:flex-end;height:56px;gap:10px}
 .brand{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
 .brand b{font-weight:700;font-size:16px;letter-spacing:.06em;color:var(--navy)}
 .brand span{font-size:12px;color:var(--muted)}
@@ -282,7 +282,6 @@ dialog .zb button{min-height:44px}
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <span class="brand"><b>ADVANTECH</b><span>iHealthcare</span></span>
   <nav class="seg" aria-label="Pages"><a href="index.html">Demo Kit</a><a href="routing-tool.html" aria-current="page">Routing Tool</a></nav>
 </div></header>
 
@@ -291,9 +290,9 @@ dialog .zb button{min-height:44px}
   <div>
     <h1><span>Select.</span><span>Route.</span><span>Done.</span></h1>
     <p class="sub">The free AVAS Routing Tool puts every source and display on one screen.</p>
-    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2Fadvantech%2Favas-routing-tool%2Freleases%2Flatest">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/advantech/avas-routing-tool/releases/latest</p></div>
+    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2FTheMarkL-Corp%2FAVAS-Routing-Tool%2Freleases">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases</p></div>
     <div class="ctas">
-      <a class="btn pri dlbtn" href="https://github.com/advantech/avas-routing-tool/releases/latest" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
+      <a class="btn pri dlbtn" href="https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
       <a class="btn sec" href="index.html#contact">Request a demo kit</a>
     </div>
     <span class="ver"><b>Free</b> &middot; v1.0.0 &middot; Windows</span>
@@ -378,19 +377,9 @@ dialog .zb button{min-height:44px}
   <div class="dl">
     <h2>Get the Routing Tool</h2>
     <p class="lead" style="margin:0 auto 22px">Free to download. Works with the AVAS Demo Kit out of the box.</p>
-    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2Fadvantech%2Favas-routing-tool%2Freleases%2Flatest">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/advantech/avas-routing-tool/releases/latest</p></div>
-    <a class="btn pri dlbtn" href="https://github.com/advantech/avas-routing-tool/releases/latest" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
+    <div class="handoff" data-handoff><p><b>The Routing Tool runs on Windows.</b> Send the download link to your laptop.</p><div class="ctas"><button class="btn pri" type="button" data-copy>Copy download link</button><a class="btn sec" target="_blank" rel="noopener" href="mailto:?subject=AVAS%20Routing%20Tool%20download&amp;body=Download%20the%20AVAS%20Routing%20Tool%20for%20Windows%3A%20https%3A%2F%2Fgithub.com%2FTheMarkL-Corp%2FAVAS-Routing-Tool%2Freleases">Email it to me</a></div><p class="copied" role="status" data-copied></p><p class="dlurl" data-url>https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases</p></div>
+    <a class="btn pri dlbtn" href="https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Download for Windows</a>
     <p class="note">Windows desktop app &middot; v1.0.0</p>
-    <details>
-      <summary>Install guide</summary>
-      <ol>
-        <li><b>Open the GitHub release page</b> using the download button.</li>
-        <li><b>Under Assets,</b> download the latest installer.</li>
-        <li><b>Run it</b> and follow the prompts.</li>
-        <li><b>Open AVAS Routing Tool</b> from the Start menu.</li>
-        <li><b>Connect to the kit switch.</b> Devices appear under Video Sources (TX) and Target Displays (RX).</li>
-      </ol>
-    </details>
   </div>
 </div></section>
 
@@ -415,7 +404,7 @@ dialog .zb button{min-height:44px}
     var out=b.closest('[data-handoff]').querySelector('[data-copied]');
     function ok(){out.textContent='Link copied. Paste it into a message to your laptop.'}
     function bad(){out.textContent='Could not copy. Select the link below and copy it.';try{var u=b.closest('[data-handoff]').querySelector('[data-url]'),r=document.createRange();r.selectNodeContents(u);var sl=getSelection();sl.removeAllRanges();sl.addRange(r)}catch(e){}}
-    try{navigator.clipboard.writeText('https://github.com/advantech/avas-routing-tool/releases/latest').then(ok,bad)}catch(e){bad()}
+    try{navigator.clipboard.writeText('https://github.com/TheMarkL-Corp/AVAS-Routing-Tool/releases').then(ok,bad)}catch(e){bad()}
   })});
   var modes=[
     ['single','Single View','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="2"/></svg>'],
